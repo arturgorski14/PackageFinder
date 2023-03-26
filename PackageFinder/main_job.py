@@ -1,6 +1,6 @@
 import logging
 
-from pypiscrapper import PypiScrapper
+from pypi_scrapper import PypiScrapper
 from utils import create_soup
 
 log = logging.getLogger(__name__)

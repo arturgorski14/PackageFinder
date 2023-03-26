@@ -1,6 +1,6 @@
 import pytest
 
-from pypiscrapper import PypiScrapper
+from pypi_scrapper import PypiScrapper
 from utils import create_soup
 
 
