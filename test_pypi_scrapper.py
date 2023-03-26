@@ -1,6 +1,6 @@
 import pytest
 
-from scrapper import Scrapper
+from pypiscrapper import PypiScrapper
 from utils import create_soup
 
 
@@ -37,9 +37,21 @@ from utils import create_soup
 )
 def test_get_author(url, expected_author, expected_email):
     soup = create_soup(url)
-    name, email = Scrapper.find_author(soup)
+    name, email = PypiScrapper.find_author(soup)
     assert name == expected_author
     assert email == expected_email
+
+
+@pytest.mark.parametrize(
+    "url, expected_href",
+    [
+        ("https://pypi.org/project/usu-apex/", "https://pypi.org/user/broboy763/"),
+    ],
+)
+def test_get_maintainer_userpage(url, expected_href):
+    soup = create_soup(url)
+    href = PypiScrapper.find_maintainer_userpage(soup)
+    assert href == expected_href
 
 
 @pytest.mark.parametrize(
@@ -54,7 +66,7 @@ def test_get_maintainer(
     url, expected_name, expected_surname, expected_mail
 ):  # dane osoby utrzymującej pakiet (imię i nazwisko, mail)
     soup = create_soup(url)
-    name, surname, email = Scrapper.find_maintainer(soup)
+    name, surname, email = PypiScrapper.find_maintainer(soup)
     assert name == expected_name
     assert surname == expected_surname
     assert email == expected_mail
@@ -72,7 +84,7 @@ def test_get_maintainer(
 )
 def test_get_package_description(url, expected_description):
     soup = create_soup(url)
-    description = Scrapper.find_description(soup)
+    description = PypiScrapper.find_description(soup)
     assert description == expected_description
 
 
@@ -84,12 +96,8 @@ def test_get_package_description(url, expected_description):
 )
 def test_get_package_title(url, expected_title):
     soup = create_soup(url)
-    title, _ = Scrapper.find_title_and_version(soup)
+    title, _ = PypiScrapper.find_title_and_version(soup)
     assert title == expected_title
-
-
-def test_get_keywords():
-    raise NotImplementedError
 
 
 @pytest.mark.parametrize(
@@ -103,5 +111,5 @@ def test_get_keywords():
 )
 def test_get_current_version(url, expected_version):
     soup = create_soup(url)
-    _, version = Scrapper.find_title_and_version(soup)
+    _, version = PypiScrapper.find_title_and_version(soup)
     assert version == expected_version

@@ -7,7 +7,7 @@ log = logging.getLogger(__name__)
 log.setLevel(logging.WARNING)
 
 
-class Scrapper:
+class PypiScrapper:
     @classmethod
     def find_author(cls, soup: BeautifulSoup) -> Tuple[str, str]:
         author = soup.find("strong", string="Author:")
@@ -35,7 +35,7 @@ class Scrapper:
         """
         tag = soup.find("h1", class_="author-profile__name")
         name = surname = email = ""
-        if not tag.contents:
+        if not tag or not tag.contents:
             cls.__message(tag)
         else:
             data = tag.contents[0].get_text(strip=True).split(" ")
@@ -49,6 +49,12 @@ class Scrapper:
         return name, surname, email
 
     @classmethod
+    def find_maintainer_userpage(cls, soup: BeautifulSoup) -> str:
+        tag = soup.find("span", class_="sidebar-section__maintainer")
+        href = f'https://pypi.org{tag.a.get("href")}'
+        return href
+
+    @classmethod
     def find_title_and_version(cls, soup: BeautifulSoup) -> Tuple[str, str]:
         tag = soup.find("h1", class_="package-header__name")
         if not tag.contents:
@@ -56,6 +62,10 @@ class Scrapper:
             return "", ""
         title, version = tag.contents[0].get_text(strip=True).split(" ")
         return title, version
+
+    @classmethod
+    def get_keywords(cls, soup: BeautifulSoup):
+        raise NotImplementedError
 
     @staticmethod
     def __message(tag: Tag):
