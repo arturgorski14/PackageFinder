@@ -1,6 +1,7 @@
 import pytest
 
-from main import Scrapper, create_soup
+from scrapper import Scrapper
+from utils import create_soup
 
 
 @pytest.mark.parametrize(
