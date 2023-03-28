@@ -1,7 +1,7 @@
 import pytest
 
-from pypi_scrapper import PypiScrapper
-from utils import create_soup
+from main.pypi_scrapper import PypiScrapper
+from main.utils import create_soup
 
 
 @pytest.mark.parametrize(
@@ -103,7 +103,7 @@ def test_get_package_title(url, expected_title):
 @pytest.mark.parametrize(
     "url, expected_version",
     [
-        ("https://pypi.org/project/AnumbyRobotSJ/", "2.0.0"),
+        ("https://pypi.org/project/AnumbyRobotSJ/", "2.4.6"),
         ("https://pypi.org/project/modbus-wrapper/", "1.0"),
         ("https://pypi.org/project/nlp-toolbox/", "0.0.3"),
         ("https://pypi.org/project/address-ping-system/", "0.3.1"),

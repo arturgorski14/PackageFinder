@@ -1,19 +1,20 @@
 import logging
 
-from pypi_scrapper import PypiScrapper
-from utils import create_soup
+from main.utils import create_soup
+from main.pypi_scrapper import PypiScrapper
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
 
 
-def main():
+def main_job():
+    print("MAIN JOB STARTS")
     url = "https://pypi.org/rss/packages.xml"
     soup = create_soup(url)
 
     all_package_links = soup.find_all("link")
     print(all_package_links[0])
-    for tag in all_package_links[1:6]:  # first is redundant
+    for tag in all_package_links[1:4]:  # first is redundant
         package_url = tag.string
         print(f"{tag.text}")
 
@@ -26,7 +27,8 @@ def main():
         )
 
         print(f"{author=}\n{title=}\n{version=}\n{description=}\n{maintainer=}\n")
+    print("MAIN JOB ENDED")
 
 
 if __name__ == "__main__":
-    main()
+    main_job()
