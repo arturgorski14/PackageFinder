@@ -26,8 +26,15 @@ def main_job():
             create_soup(PypiScrapper.find_maintainer_userpage(package_soup))
         )
 
+        save_data_to_elastic(description)
+
         print(f"{author=}\n{title=}\n{version=}\n{description=}\n{maintainer=}\n")
     print("MAIN JOB ENDED")
+
+
+def save_data_to_elastic(description: str):
+    print("(Not) Saving to elastic")
+    pass
 
 
 if __name__ == "__main__":
