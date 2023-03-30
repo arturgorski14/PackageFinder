@@ -1,5 +1,6 @@
 import logging
 
+from main.models import PypiPackage
 from main.utils import create_soup
 from main.pypi_scrapper import PypiScrapper
 
@@ -26,15 +27,17 @@ def main_job():
             create_soup(PypiScrapper.find_maintainer_userpage(package_soup))
         )
 
-        save_data_to_elastic(description)
+        if description:
+            save_data_to_elastic(description)
 
         print(f"{author=}\n{title=}\n{version=}\n{description=}\n{maintainer=}\n")
     print("MAIN JOB ENDED")
 
 
 def save_data_to_elastic(description: str):
-    print("(Not) Saving to elastic")
-    pass
+    print("Saving to elastic")
+    package = PypiPackage(description)
+    package.save()
 
 
 if __name__ == "__main__":
