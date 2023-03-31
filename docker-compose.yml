@@ -4,6 +4,10 @@ services:
   djangoapp:
     build: .
     container_name: django-app
+    command:
+      sh -c "python manage.py migrate &&
+      python manage.py runserver 0.0.0.0:8000 &&
+      python manage.py search_index --rebuild"
     depends_on:
       - elasticsearch
     environment:

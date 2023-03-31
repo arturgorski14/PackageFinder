@@ -19,7 +19,6 @@ open Docker Desktop
 
 From terminal
 - docker-compose up
-- docker-compose run --rm api sh -c "python manage.py search_index --rebuild"  # rebuild elastic index
 
 ## Tech Stack
 - frameworks, libraries and why
