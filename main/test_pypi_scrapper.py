@@ -104,7 +104,7 @@ def test_get_package_title(url, expected_title):
     "url, expected_version",
     [
         ("https://pypi.org/project/AnumbyRobotSJ/", "2.4.6"),
-        ("https://pypi.org/project/modbus-wrapper/", "1.0"),
+        ("https://pypi.org/project/modbus-wrapper/", "1.0.1"),
         ("https://pypi.org/project/nlp-toolbox/", "0.0.3"),
         ("https://pypi.org/project/address-ping-system/", "0.3.1"),
     ],
