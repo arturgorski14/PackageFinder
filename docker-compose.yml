@@ -1,39 +1,45 @@
 version: '3.11'
 
 services:
-  main:
+  djangoapp:
     build: .
     container_name: django-app
+    depends_on:
+      - elasticsearch
+#    environment:
+#      - ELASTICSEARCH_HOSTS=http://es-container:9200
+#    networks:
+#      - custom-network
     ports:
       - 8000:8000
-    volumes:
-      - .:/app
-    networks:
-      - custom-network
+#    volumes:
+#      - .:/app
 
   elasticsearch:
-    container_name: es-container
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
+    container_name: elasticsearch-cn
     environment:
       - xpack.security.enabled=false
       - discovery.type=single-node
-    networks:
-      - custom-network
+#      - boostrap.memory_lock=true
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.9
+#    networks:
+#      - custom-network
     ports:
       - 9200:9200
+      - 9300:9300
 
   kibana:
-    container_name: kb-container
-    image: docker.elastic.co/kibana/kibana:7.4.0
-    environment:
-      - ELASTICSEARCH_HOSTS=http://es-container:9200
-    networks:
-      - custom-network
+    container_name: kibana-cn
     depends_on:
       - elasticsearch
+#    environment:
+#      - ELASTICSEARCH_HOSTS=http://es-container:9200
+    image: docker.elastic.co/kibana/kibana:7.17.9
+#    networks:
+#      - custom-network
     ports:
       - 5601:5601
 
-networks:
-  custom-network:
-    driver: bridge
+#networks:
+#  custom-network:
+#    driver: bridge
