@@ -1,3 +1,13 @@
+<form method="get">
+
+    <input id="q" name="q" type="text" placeholder="search package...">
+
+</form>
+
+Q: {{ q_found }} :)
+len_packages: {{ len_packages }}
+page_obj: {{ page_obj }}
+
 {% if packages %}
     <ul>
     {% for package in packages %}
@@ -7,6 +17,5 @@
     {% endfor %}
     </ul>
 {% else %}
-    <p>No documents are available.</p>
-    <p>Contents of packages: {{ packages }}</p>
+    <p>No packages found.</p>
 {% endif %}
