@@ -57,7 +57,7 @@ class PypiScrapper:
     @classmethod
     def find_title_and_version(cls, soup: BeautifulSoup) -> Tuple[str, str]:
         tag = soup.find("h1", class_="package-header__name")
-        if not tag.contents:
+        if not tag or not tag.contents:
             cls.__message(tag)
             return "", ""
         title, version = tag.contents[0].get_text(strip=True).split(" ")

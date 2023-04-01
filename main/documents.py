@@ -16,4 +16,6 @@ class PypiPackageDocument(Document):
 
         fields = [
             "description",
+            "title",
+            "version",
         ]
