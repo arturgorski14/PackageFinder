@@ -6,5 +6,6 @@ class MainConfig(AppConfig):
     name = 'main'
 
     def ready(self):
+        print("READY FUNCTION")
         from . import updater
         updater.start()

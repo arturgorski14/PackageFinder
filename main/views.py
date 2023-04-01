@@ -1,12 +1,8 @@
 import logging
-from django.http import HttpResponse
+
+from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Search
 from elasticsearch_dsl.query import MultiMatch
-from django.core.paginator import Paginator
-
-from .models import PypiPackage
-from .documents import PypiPackageDocument
-from django.template import loader
 from django.shortcuts import render
 
 log = logging.getLogger(__name__)
@@ -14,11 +10,9 @@ log.setLevel(logging.DEBUG)
 
 
 def index(request):
-    search = request.GET.get('q')
-    if search:
-        mm = MultiMatch(query=search, fields=["description", "title"])
-        packages = Search().query(mm)
-        packages_count = packages.count()
+    search_value = request.GET.get('q')
+    if search_value:
+        packages, packages_count = get_data_from_elastic(search_value)
     else:
         packages = []
         packages_count = 0
@@ -26,7 +20,14 @@ def index(request):
     context = {
         "len_packages": packages_count,
         "packages": packages,
-        "q_found": search,
+        "q_found": search_value,
     }
     # return render(request, "main/index.html", context)
     return render(request, "main/index.html", context)
+
+
+def get_data_from_elastic(query):
+    mm = MultiMatch(query=query, fields=["description", "title"])
+    packages = Search(using="packages").query(mm)
+    packages_count = packages.count()
+    return packages, packages_count

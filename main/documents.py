@@ -9,7 +9,7 @@ class PypiPackageDocument(Document):
 
     class Index:
         name = "packages"
-        settings = {"number_of_shards": 1, "number_of_replicas": 0}
+        settings = {"number_of_shards": 1, "number_of_replicas": 1}
 
     class Django:
         model = PypiPackage

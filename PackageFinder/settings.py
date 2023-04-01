@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -134,3 +135,10 @@ ELASTICSEARCH_DSL = {
         'hosts': 'elasticsearch:9200'
     },
 }
+# ELASTICSEARCH_DSL_SIGNAL_PROCESSOR = 'django_elasticsearch_dsl.signals.RealTimeSignalProcessor'
+
+# ELASTICSEARCH_DSL = {
+#     'default': {
+#         'hosts': os.environ.get("ELASTICSEARCH_HOST", "elasticsearch:9200")
+#     },
+# }
