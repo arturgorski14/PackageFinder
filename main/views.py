@@ -30,7 +30,7 @@ def get_data_from_elastic(search_value):
         )
     else:
         match_query = MatchAll()
-    packages_query = PypiPackageDocument.search().query(match_query)
+    packages_query = PypiPackageDocument.search()[:100].query(match_query)
 
     try:
         _ = packages_query.count()
@@ -43,3 +43,6 @@ def get_data_from_elastic(search_value):
 def populate_index_on_demand(request):
     main_job()
     return redirect("/")
+
+
+match_query = MultiMatch(query=search_value,fields=["description", "title"],)
