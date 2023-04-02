@@ -6,7 +6,6 @@ from main.models import PypiPackage
 
 @registry.register_document
 class PypiPackageDocument(Document):
-
     class Index:
         name = "packages"
         settings = {"number_of_shards": 1, "number_of_replicas": 1}

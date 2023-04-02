@@ -1,33 +1,45 @@
 import logging
 
-from elasticsearch import Elasticsearch
-from elasticsearch_dsl import Search
-from elasticsearch_dsl.query import MultiMatch
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from elasticsearch.exceptions import NotFoundError
+from elasticsearch_dsl.query import MatchAll, MultiMatch
+
+from main.documents import PypiPackageDocument
+from main.main_job import main_job
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
 
 
 def index(request):
-    search_value = request.GET.get('q')
-    if search_value:
-        packages, packages_count = get_data_from_elastic(search_value)
-    else:
-        packages = []
-        packages_count = 0
+    search_value = request.GET.get("q")
+    packages = get_data_from_elastic(search_value)
 
     context = {
-        "len_packages": packages_count,
         "packages": packages,
         "q_found": search_value,
     }
-    # return render(request, "main/index.html", context)
     return render(request, "main/index.html", context)
 
 
-def get_data_from_elastic(query):
-    mm = MultiMatch(query=query, fields=["description", "title"])
-    packages = Search(using="packages").query(mm)
-    packages_count = packages.count()
-    return packages, packages_count
+def get_data_from_elastic(search_value):
+    if search_value:
+        match_query = MultiMatch(
+            query=search_value,
+            fields=["description", "title"],
+        )
+    else:
+        match_query = MatchAll()
+    packages_query = PypiPackageDocument.search().query(match_query)
+
+    try:
+        _ = packages_query.count()
+    except NotFoundError:
+        return []
+    else:
+        return packages_query
+
+
+def populate_index_on_demand(request):
+    main_job()
+    return redirect("/")

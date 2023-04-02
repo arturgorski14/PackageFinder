@@ -1,6 +1,6 @@
 from main.models import PypiPackage
-from main.utils import create_soup
 from main.pypi_scrapper import PypiScrapper
+from main.utils import create_soup
 
 
 def main_job():
@@ -10,7 +10,7 @@ def main_job():
 
     all_package_links = soup.find_all("link")
     print(all_package_links)
-    for tag in all_package_links[1:]:  # first is redundant
+    for tag in list(set(all_package_links))[1:]:  # first is redundant
         package_url = tag.string
         print(package_url)
 
@@ -26,7 +26,11 @@ def main_job():
         #     save_data_to_elastic(description)
 
         # print(f"{author=}\n{title=}\n{version=}\n{description=}\n{maintainer=}\n")
-        save_data_to_elastic(title=title, version=version, description=description)
+        save_data_to_elastic(
+            title=title,
+            version=version,
+            description=description,
+        )
     print("MAIN JOB ENDED")
 
 

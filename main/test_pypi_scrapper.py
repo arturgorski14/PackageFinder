@@ -45,7 +45,10 @@ def test_get_author(url, expected_author, expected_email):
 @pytest.mark.parametrize(
     "url, expected_href",
     [
-        ("https://pypi.org/project/usu-apex/", "https://pypi.org/user/broboy763/"),
+        (
+            "https://pypi.org/project/usu-apex/",
+            "https://pypi.org/user/broboy763/",
+        ),
     ],
 )
 def test_get_maintainer_userpage(url, expected_href):
