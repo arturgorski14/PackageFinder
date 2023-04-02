@@ -9,12 +9,19 @@
 <body>
 
 <form method="get">
-    <input id="q" name="q" type="text" placeholder="search package...">
+<!--    <input id="q" name="q" type="text" placeholder="search package...">-->
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="q">Search for Packages</span>
+      </div>
+      <input type="text" class="form-control" aria-label="Default" aria-describedby="q" name="q" placeholder="your search ...">
+    </div>
 </form>
 
 {% if packages %}
 <table class="table table-hover">
-  <thead>
+  <thead class="thead-dark">
     <tr>
       <th scope="col">Title</th>
       <th scope="col">Version</th>
