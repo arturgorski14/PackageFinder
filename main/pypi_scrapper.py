@@ -55,7 +55,7 @@ class PypiScrapper:
     def find_maintainer_userpage(cls, soup: BeautifulSoup) -> str:
         tag = soup.find("span", class_="sidebar-section__maintainer")
         breakpoint()
-        href = f'https://pypi.org{tag.a.get("href")}'  # sprawdzić czy zwraca url bezwzględny
+        href = f'https://pypi.org{tag.a.get("href")}'
         return href
 
     @classmethod

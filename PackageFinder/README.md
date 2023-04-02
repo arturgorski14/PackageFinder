@@ -1,27 +1,22 @@
 # PackageFinder
-- short project description
+- Simple Django App that utilizes Elasticsearch to find and filter results.
+- Every 24h runs cron which updates Elasticsearch index "packages".
 
-## How to run
-LOCAL:
-- python manage.py runserver
-
-DOCKER:
-
-Set variable for docker desktop
-
+## Before first run
+### Set variable for docker desktop - elasticsearch won't work otherwise
 In PowerShell
 - wsl -d docker-desktop -u root
 - vi /etc/sysctl.conf
-In sysctl.conf file
+Then in sysctl.conf file
 - vm.max_map_count=262144
 
-open Docker Desktop
+inside project's Dockerfile set PAGINATE_BY to change how many results are displayed on single page
 
-From terminal
-- docker-compose up
+## How to run
+- docker-compose up -d
+- go to http://localhost:8000/fill in order to populate elasticsearch on demand
 
-## Tech Stack
-- frameworks, libraries and why
+## Additional info
+### elasticsearch data is stored in volume
+- \\wsl$\docker-desktop-data\data\docker\volumes
 
-
-# elasticsearch files backup - \\wsl$\docker-desktop-data\data\docker\volumes

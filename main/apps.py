@@ -8,4 +8,5 @@ class MainConfig(AppConfig):
     def ready(self):
         print("READY FUNCTION")
         from . import updater
+
         updater.start()

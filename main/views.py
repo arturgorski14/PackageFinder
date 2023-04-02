@@ -32,21 +32,30 @@ def index(request):
         "previous_page": previous_page,
         "current_page": page_num,
         "next_page": next_page,
-        "total_pages_num": total_pages_num
+        "total_pages_num": total_pages_num,
     }
     return render(request, "main/index.html", context)
 
 
-def get_paginated_data_from_elastic(search_value: Optional[str], page_number: int):
+def get_paginated_data_from_elastic(
+    search_value: Optional[str],
+    page_number: int,
+):
     if search_value:
         match_query = MultiMatch(
             query=search_value,
-            fields=["description", "title", "version", "author_name", "author_email"],
+            fields=[
+                "description",
+                "title",
+                "version",
+                "author_name",
+                "author_email",
+            ],
         )
     else:
         match_query = MatchAll()
 
-    start = (page_number-1) * PAGINATE_BY
+    start = (page_number - 1) * PAGINATE_BY
     end = start + PAGINATE_BY
 
     packages_query = PypiPackageDocument.search()[start:end].query(match_query)

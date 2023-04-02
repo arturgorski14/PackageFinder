@@ -25,9 +25,6 @@ def main_job():
             create_soup(PypiScrapper.find_maintainer_userpage(package_soup))
         )
 
-        print(
-            f"{author_name=}\n{author_email=}\n{title=}\n{version=}\n{description=}\n{maintainer=}\n"
-        )
         save_data_to_elastic(
             author_name=author_name,
             author_email=author_email,
