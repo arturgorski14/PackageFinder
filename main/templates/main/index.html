@@ -1,28 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  {% load django_bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+</head>
+<body>
+
 <form method="get">
-
     <input id="q" name="q" type="text" placeholder="search package...">
-
 </form>
 
-<div class="card" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-
-    {% if packages %}
-    <ul class="list-group list-group-flush">
-    {% for package in packages %}
-        <li class="list-group-item">TITLE: {{ package.title }}</li>
-        <li class="list-group-item">VERSION: {{ package.version }}</li>
-        <li class="list-group-item">DESCRIPTION: {{ package.description }}</li>
-        <li class="list-group-item">AUTHOR_NAME: {{ package.author_name }}</li>
-        <li class="list-group-item">AUTHOR_EMAIL: {{ package.author_email }}</li>
-        <li class="list-group-item">-------------------------------------</li>
+{% if packages %}
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Title</th>
+      <th scope="col">Version</th>
+      <th scope="col">Description</th>
+      <th scope="col">Author</th>
+      <th scope="col">Maintainer</th>
+    </tr>
+  </thead>
+  <tbody>
+   {% for package in packages %}
+    <tr>
+      <td>{{ package.title }}</td>
+      <td>{{ package.version }}</td>
+      <td>{{ package.description }}</td>
+      <td>{{ package.author_name }}</td>
+      <td>{{ package.author_email }}</td>
+    </tr>
     {% endfor %}
-    </ul>
-    {% else %}
-        <p>No packages found.</p>
-    {% endif %}
+  </tbody>
+</table>
+{% else %}
+    <p>No packages found.</p>
+{% endif %}
+
+<div class="pagination">
+    <span>
+        <a href="?page=1">&laquo; first</a>
+        {% if page_num > 1 %}
+            <a href="?page={{ previous_page }}">previous</a>
+        {% endif %}
+
+        <span>
+            Page {{ page_num }} of {{ total_pages_num }}.
+        </span>
+
+        {% if page_num < total_pages_num %}
+            <a href="?page={{ next_page }}">next</a>
+        {% endif %}
+        <a href="?page={{ total_pages_num }}">last &raquo;</a>
+    </span>
 </div>
-<!-- https://getbootstrap.com/docs/5.3/components/card/#kitchen-sink -->
+
+</body>
+</html>
