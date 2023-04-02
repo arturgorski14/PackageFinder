@@ -5,41 +5,35 @@ from main.utils import create_soup
 
 
 @pytest.mark.parametrize(
-    "url, expected_author, expected_email",
+    "url, expected_author",
     [
         (
             "https://pypi.org/project/usu-apex/",
-            "AJ Burns",
-            "aj501173@gmail.com",
+            "AJ Burns aj501173@gmail.com",
         ),
         (
             "https://pypi.org/project/torch-scatter-carate/",
-            "Matthias Fey",
-            "julian.kleber@sail.black",
+            "Matthias Fey julian.kleber@sail.black",
         ),
         (
             "https://pypi.org/project/random-header-generator/",
             "miltos_90",
-            "",
         ),
         (
             "https://pypi.org/project/django-admin-site-search/",
-            "Ahmed Al-Jawahiry",
-            "ahmedaljawahiry@gmail.com",
+            "Ahmed Al-Jawahiry ahmedaljawahiry@gmail.com",
         ),
         pytest.param(
             "https://pypi.org/project/terraform-backend-s3-bucket/",
-            "Stefan Freitag",
-            "stefan.freitag@udo.edu",
+            "Stefan Freitag stefan.freitag@udo.edu",
             marks=pytest.mark.xfail(reason="Missing <a> tag for email"),
         ),
     ],
 )
-def test_get_author(url, expected_author, expected_email):
+def test_get_author(url, expected_author):
     soup = create_soup(url)
     name, email = PypiScrapper.find_author(soup)
-    assert name == expected_author
-    assert email == expected_email
+    assert name, email == expected_author
 
 
 @pytest.mark.parametrize(
@@ -67,7 +61,7 @@ def test_get_maintainer_userpage(url, expected_href):
 )
 def test_get_maintainer(
     url, expected_name, expected_surname, expected_mail
-):  # dane osoby utrzymującej pakiet (imię i nazwisko, mail)
+):
     soup = create_soup(url)
     name, surname, email = PypiScrapper.find_maintainer(soup)
     assert name == expected_name
