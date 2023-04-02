@@ -43,6 +43,3 @@ def get_data_from_elastic(search_value):
 def populate_index_on_demand(request):
     main_job()
     return redirect("/")
-
-
-match_query = MultiMatch(query=search_value,fields=["description", "title"],)
