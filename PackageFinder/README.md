@@ -22,3 +22,6 @@ From terminal
 
 ## Tech Stack
 - frameworks, libraries and why
+
+
+# elasticsearch files backup - \\wsl$\docker-desktop-data\data\docker\volumes

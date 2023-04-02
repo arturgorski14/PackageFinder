@@ -10,7 +10,7 @@ log.setLevel(logging.WARNING)
 class PypiScrapper:
     @classmethod
     def find_author(cls, soup: BeautifulSoup) -> Tuple[str, str]:
-        author = soup.find("strong", string="Author:")
+        author = soup.find("strong", string="Author:")  # Author: ([\s\S]*)\n
         if author and author.parent and author.contents:
             data = author.parent.contents[-1]
         else:
@@ -41,7 +41,7 @@ class PypiScrapper:
             cls.__message(tag)
             return ""
         else:
-            data = tag.contents[0].get_text(strip=True)#.split(" ")
+            data = tag.contents[0].get_text(strip=True)  # .split(" ")
             # data += [""] * (3 - len(data))  # fill up to 3 values
             # (
             #     name,
@@ -54,7 +54,8 @@ class PypiScrapper:
     @classmethod
     def find_maintainer_userpage(cls, soup: BeautifulSoup) -> str:
         tag = soup.find("span", class_="sidebar-section__maintainer")
-        href = f'https://pypi.org{tag.a.get("href")}'
+        breakpoint()
+        href = f'https://pypi.org{tag.a.get("href")}'  # sprawdzić czy zwraca url bezwzględny
         return href
 
     @classmethod

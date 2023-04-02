@@ -3,7 +3,6 @@ import logging
 from django.shortcuts import redirect, render
 from elasticsearch.exceptions import NotFoundError
 from elasticsearch_dsl.query import MatchAll, MultiMatch
-from django.core.paginator import Paginator
 
 from main.documents import PypiPackageDocument
 from main.main_job import main_job

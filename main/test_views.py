@@ -4,8 +4,9 @@ import pytest
 from django.test import Client
 from elasticsearch_dsl.connections import connections
 
-
-connections.create_connection(hosts=['localhost', 'elasticsearch:9200'])  # do testów elastica - zmockowac connections
+connections.create_connection(
+    hosts=["localhost", "elasticsearch:9200"]
+)  # do testów elastica - zmockowac connections
 
 
 class TestMainIndexView:

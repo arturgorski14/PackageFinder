@@ -32,6 +32,8 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
+    volumes:
+      - pf-elastic:/usr/share/elasticsearch/data
 
   kibana:
     container_name: kibana-cn
@@ -60,3 +62,6 @@ services:
 
 networks:
   custom-network:
+
+volumes:
+  pf-elastic:

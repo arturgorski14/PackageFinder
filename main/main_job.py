@@ -10,9 +10,12 @@ def main_job():
 
     all_package_links = soup.find_all("link")
     print(all_package_links)
-    for tag in list(set(all_package_links))[1:]:  # first is redundant
+    for tag in list(set(all_package_links)):  # first is redundant
         package_url = tag.string
         print(package_url)
+        if package_url == "https://pypi.org/":
+            print("SKIPPING")
+            continue
 
         package_soup = create_soup(package_url)
         author_name, author_email = PypiScrapper.find_author(package_soup)
@@ -22,7 +25,9 @@ def main_job():
             create_soup(PypiScrapper.find_maintainer_userpage(package_soup))
         )
 
-        print(f"{author_name=}\n{author_email=}\n{title=}\n{version=}\n{description=}\n{maintainer=}\n")
+        print(
+            f"{author_name=}\n{author_email=}\n{title=}\n{version=}\n{description=}\n{maintainer=}\n"
+        )
         save_data_to_elastic(
             author_name=author_name,
             author_email=author_email,

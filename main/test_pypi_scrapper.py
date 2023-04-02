@@ -28,12 +28,16 @@ from main.utils import create_soup
             "Stefan Freitag stefan.freitag@udo.edu",
             marks=pytest.mark.xfail(reason="Missing <a> tag for email"),
         ),
+        (
+            "https://pypi.org/project/Seyuri-Utils/",
+            "",
+        ),
     ],
 )
 def test_get_author(url, expected_author):
     soup = create_soup(url)
     name, email = PypiScrapper.find_author(soup)
-    assert name, email == expected_author
+    assert name, email == expected_author  # TODO: przerobić
 
 
 @pytest.mark.parametrize(
@@ -50,7 +54,7 @@ def test_get_author(url, expected_author):
         (
             "https://pypi.org/project/mangadex-dl/",
             "https://pypi.org/user/john-erinjery/",
-         )
+        ),
     ],
 )
 def test_get_maintainer_userpage(project_url, maintainer_url):
@@ -67,10 +71,11 @@ def test_get_maintainer_userpage(project_url, maintainer_url):
         ("https://pypi.org/user/miltos_90/", "Miltos K"),
         ("https://pypi.org/user/bsimpson888/", ""),
         # ("https://pypi.org/user/tinom9/", "Tino Martínez Molina")
-    ]
+    ],
 )
 def test_get_maintainer(
-    url, expected_maintainer,
+    url,
+    expected_maintainer,
 ):
     soup = create_soup(url)
     maintainer = PypiScrapper.find_maintainer(soup)
