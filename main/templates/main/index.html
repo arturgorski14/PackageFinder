@@ -13,13 +13,16 @@
     {% if packages %}
     <ul class="list-group list-group-flush">
     {% for package in packages %}
-        <li class="list-group-item">An itemTITLE: {{ package.title }}</li>
-        <li class="list-group-item">A second itemVERSION: {{ package.version }}</li>
+        <li class="list-group-item">TITLE: {{ package.title }}</li>
+        <li class="list-group-item">VERSION: {{ package.version }}</li>
         <li class="list-group-item">DESCRIPTION: {{ package.description }}</li>
+        <li class="list-group-item">AUTHOR_NAME: {{ package.author_name }}</li>
+        <li class="list-group-item">AUTHOR_EMAIL: {{ package.author_email }}</li>
+        <li class="list-group-item">-------------------------------------</li>
     {% endfor %}
     </ul>
-{% else %}
-    <p>No packages found.</p>
-{% endif %}
+    {% else %}
+        <p>No packages found.</p>
+    {% endif %}
 </div>
 <!-- https://getbootstrap.com/docs/5.3/components/card/#kitchen-sink -->

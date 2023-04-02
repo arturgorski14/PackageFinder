@@ -29,9 +29,6 @@ def main_job():
             title=title,
             version=version,
             description=description,
-            # maintainer_name=maintainer_name,
-            # maintainer_name=maintainer_name,
-            # maintainer_name=maintainer_name,
         )
     print("MAIN JOB ENDED")
 

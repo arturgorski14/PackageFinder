@@ -3,6 +3,7 @@ import logging
 from django.shortcuts import redirect, render
 from elasticsearch.exceptions import NotFoundError
 from elasticsearch_dsl.query import MatchAll, MultiMatch
+from django.core.paginator import Paginator
 
 from main.documents import PypiPackageDocument
 from main.main_job import main_job
@@ -17,7 +18,6 @@ def index(request):
 
     context = {
         "packages": packages,
-        "q_found": search_value,
     }
     return render(request, "main/index.html", context)
 
@@ -26,7 +26,7 @@ def get_data_from_elastic(search_value):
     if search_value:
         match_query = MultiMatch(
             query=search_value,
-            fields=["description", "title"],
+            fields=["description", "title", "version", "author_name", "author_email"],
         )
     else:
         match_query = MatchAll()
