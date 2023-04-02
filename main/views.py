@@ -24,8 +24,8 @@ def index(request):
 
     packages, p_count = get_paginated_data_from_elastic(search_value, page_num)
     total_pages_num = ceil(p_count / PAGINATE_BY)
-    previous_page = max(1, page_num-1)
-    next_page = min(page_num + 1, total_pages_num)
+    previous_page = page_num - 1
+    next_page = page_num + 1
 
     context = {
         "packages": packages,
