@@ -4,17 +4,22 @@
 
 </form>
 
-Q: {{ q_found }} :)
-page_obj: {{ page_obj }}
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </div>
 
-{% if packages %}
-    <ul>
+    {% if packages %}
+    <ul class="list-group list-group-flush">
     {% for package in packages %}
-        <p>TITLE: {{ package.title }}</p>
-        <p>VERSION: {{ package.version }}</p>
-        <p>DESCRIPTION: {{ package.description }}</p>
+        <li class="list-group-item">An itemTITLE: {{ package.title }}</li>
+        <li class="list-group-item">A second itemVERSION: {{ package.version }}</li>
+        <li class="list-group-item">DESCRIPTION: {{ package.description }}</li>
     {% endfor %}
     </ul>
 {% else %}
     <p>No packages found.</p>
 {% endif %}
+</div>
+<!-- https://getbootstrap.com/docs/5.3/components/card/#kitchen-sink -->
