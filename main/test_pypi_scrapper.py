@@ -37,36 +37,44 @@ def test_get_author(url, expected_author):
 
 
 @pytest.mark.parametrize(
-    "url, expected_href",
+    "project_url, maintainer_url",
     [
         (
             "https://pypi.org/project/usu-apex/",
             "https://pypi.org/user/broboy763/",
         ),
+        (
+            "https://pypi.org/project/synthesizers/",
+            "https://pypi.org/user/petersk/",
+        ),
+        (
+            "https://pypi.org/project/mangadex-dl/",
+            "https://pypi.org/user/john-erinjery/",
+         )
     ],
 )
-def test_get_maintainer_userpage(url, expected_href):
-    soup = create_soup(url)
+def test_get_maintainer_userpage(project_url, maintainer_url):
+    soup = create_soup(project_url)
     href = PypiScrapper.find_maintainer_userpage(soup)
-    assert href == expected_href
+    assert href == maintainer_url
 
 
 @pytest.mark.parametrize(
-    "url, expected_name, expected_surname, expected_mail",
+    "url, expected_maintainer",
     [
-        ("https://pypi.org/user/broboy763/", "AJ", "Burns", ""),
-        ("https://pypi.org/user/MQSchleich/", "Manuel", "", ""),
-        ("https://pypi.org/user/miltos_90/", "Miltos", "K", ""),
-    ],
+        ("https://pypi.org/user/broboy763/", "AJ Burns"),
+        ("https://pypi.org/user/MQSchleich/", "Manuel"),
+        ("https://pypi.org/user/miltos_90/", "Miltos K"),
+        ("https://pypi.org/user/bsimpson888/", ""),
+        # ("https://pypi.org/user/tinom9/", "Tino Martínez Molina")
+    ]
 )
 def test_get_maintainer(
-    url, expected_name, expected_surname, expected_mail
+    url, expected_maintainer,
 ):
     soup = create_soup(url)
-    name, surname, email = PypiScrapper.find_maintainer(soup)
-    assert name == expected_name
-    assert surname == expected_surname
-    assert email == expected_mail
+    maintainer = PypiScrapper.find_maintainer(soup)
+    assert maintainer == expected_maintainer
 
 
 @pytest.mark.parametrize(

@@ -15,21 +15,23 @@ def main_job():
         print(package_url)
 
         package_soup = create_soup(package_url)
-        # author = PypiScrapper.find_author(package_soup)
+        author_name, author_email = PypiScrapper.find_author(package_soup)
         title, version = PypiScrapper.find_title_and_version(package_soup)
         description = PypiScrapper.find_description(package_soup)
-        # maintainer = PypiScrapper.find_maintainer(
-        #     create_soup(PypiScrapper.find_maintainer_userpage(package_soup))
-        # )
-        #
-        # if description:
-        #     save_data_to_elastic(description)
+        maintainer = PypiScrapper.find_maintainer(
+            create_soup(PypiScrapper.find_maintainer_userpage(package_soup))
+        )
 
-        # print(f"{author=}\n{title=}\n{version=}\n{description=}\n{maintainer=}\n")
+        print(f"{author_name=}\n{author_email=}\n{title=}\n{version=}\n{description=}\n{maintainer=}\n")
         save_data_to_elastic(
+            author_name=author_name,
+            author_email=author_email,
             title=title,
             version=version,
             description=description,
+            # maintainer_name=maintainer_name,
+            # maintainer_name=maintainer_name,
+            # maintainer_name=maintainer_name,
         )
     print("MAIN JOB ENDED")
 

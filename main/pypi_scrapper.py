@@ -11,7 +11,10 @@ class PypiScrapper:
     @classmethod
     def find_author(cls, soup: BeautifulSoup) -> Tuple[str, str]:
         author = soup.find("strong", string="Author:")
-        data = author.parent.contents[-1]
+        if author and author.parent and author.contents:
+            data = author.parent.contents[-1]
+        else:
+            return "", ""
         name = data.get_text(strip=True)
         if isinstance(data, NavigableString):
             email = ""
@@ -22,31 +25,31 @@ class PypiScrapper:
     @classmethod
     def find_description(cls, soup: BeautifulSoup) -> str:
         tag = soup.find("p", class_="package-description__summary")
-        if not tag.contents:
+        if not tag or not tag.contents:
             cls.__message(tag)
             return ""
         return tag.contents[0].string
 
     @classmethod
-    def find_maintainer(cls, soup: BeautifulSoup) -> Tuple[str, str, str]:
+    def find_maintainer(cls, soup: BeautifulSoup) -> str:
         """
         Returns: data of the author such as name, surname and email.
         If unable to scrap then returns values as empty string
         """
         tag = soup.find("h1", class_="author-profile__name")
-        name = surname = email = ""
         if not tag or not tag.contents:
             cls.__message(tag)
+            return ""
         else:
-            data = tag.contents[0].get_text(strip=True).split(" ")
-            data += [""] * (3 - len(data))  # fill up to 3 values
-            (
-                name,
-                surname,
-                email,
-                *_,
-            ) = data  # get rid of possiblity of having more than 3 items
-        return name, surname, email
+            data = tag.contents[0].get_text(strip=True)#.split(" ")
+            # data += [""] * (3 - len(data))  # fill up to 3 values
+            # (
+            #     name,
+            #     surname,
+            #     email,
+            #     *_,
+            # ) = data  # get rid of possiblity of having more than 3 items
+        return data
 
     @classmethod
     def find_maintainer_userpage(cls, soup: BeautifulSoup) -> str:

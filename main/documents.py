@@ -14,6 +14,8 @@ class PypiPackageDocument(Document):
         model = PypiPackage
 
         fields = [
+            "author_email",
+            "author_name",
             "description",
             "title",
             "version",
