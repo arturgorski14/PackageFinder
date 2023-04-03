@@ -1,20 +1,22 @@
+import logging
 from main.models import PypiPackage
 from main.pypi_scrapper import PypiScrapper
 from main.utils import create_soup
 
+log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
+
 
 def main_job():
-    print("MAIN JOB STARTS")
     url = "https://pypi.org/rss/packages.xml"
     soup = create_soup(url)
 
     all_package_links = soup.find_all("link")
-    print(all_package_links)
-    for tag in list(set(all_package_links)):  # first is redundant
+    for tag in list(set(all_package_links)):
         package_url = tag.string
-        print(package_url)
+        log.info(f"Processing {url=}")
         if package_url == "https://pypi.org/":
-            print("SKIPPING")
+            log.info("Skip")
             continue
 
         package_soup = create_soup(package_url)
@@ -32,7 +34,8 @@ def main_job():
             version=version,
             description=description,
         )
-    print("MAIN JOB ENDED")
+        log.info(f"Finished {url=}")
+    log.info(f"main_job has finished")
 
 
 def save_data_to_elastic(**kwargs):

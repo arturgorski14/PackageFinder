@@ -41,14 +41,7 @@ class PypiScrapper:
             cls.__message(tag)
             return ""
         else:
-            data = tag.contents[0].get_text(strip=True)  # .split(" ")
-            # data += [""] * (3 - len(data))  # fill up to 3 values
-            # (
-            #     name,
-            #     surname,
-            #     email,
-            #     *_,
-            # ) = data  # get rid of possiblity of having more than 3 items
+            data = tag.contents[0].get_text(strip=True)
         return data
 
     @classmethod

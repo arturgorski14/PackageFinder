@@ -4,13 +4,16 @@
 
 ## Before first run
 ### Set variable for docker desktop - elasticsearch won't work otherwise
-In PowerShell
+Open PowerShell and type following commands:
 - wsl -d docker-desktop -u root
 - vi /etc/sysctl.conf
-Then in sysctl.conf file
+Then add following line in sysctl.conf file
 - vm.max_map_count=262144
 
-inside project's Dockerfile set PAGINATE_BY to change how many results are displayed on single page
+PAGINATE_BY:
+- sets how many results are displayed on single page,
+- default value is 25,
+- changeable in Dockerfile.
 
 ## How to run
 - docker-compose up -d

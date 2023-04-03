@@ -1,19 +1,13 @@
-import logging
-import os
 from typing import Optional
 
 from django.shortcuts import redirect, render
 from elasticsearch.exceptions import NotFoundError
 from elasticsearch_dsl.query import MatchAll, MultiMatch
 
+from PackageFinder.settings import PAGINATE_BY
 from main.documents import PypiPackageDocument
 from main.main_job import main_job
 from django_elasticsearch_dsl_drf.pagination import Paginator
-
-log = logging.getLogger(__name__)
-log.setLevel(logging.DEBUG)
-
-PAGINATE_BY = int(os.environ.get("PAGINATE_BY", 10))
 
 
 def index(request):
