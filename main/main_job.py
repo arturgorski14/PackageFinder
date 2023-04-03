@@ -1,4 +1,5 @@
 import logging
+
 from main.models import PypiPackage
 from main.pypi_scrapper import PypiScrapper
 from main.utils import create_soup
@@ -35,7 +36,7 @@ def main_job():
             description=description,
             maintainer=maintainer,
         )
-    log.info(f"main_job has finished")
+    log.info("main_job has finished")
 
 
 def save_data_to_elastic(**kwargs):

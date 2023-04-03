@@ -3,12 +3,13 @@ from typing import Optional
 
 import requests
 from bs4 import BeautifulSoup
+from django_elasticsearch_dsl_drf.pagination import Paginator
 from elasticsearch import NotFoundError
 from elasticsearch_dsl import Search
-from elasticsearch_dsl.query import MultiMatch, MatchAll
+from elasticsearch_dsl.query import MatchAll, MultiMatch
 
-from PackageFinder.settings import PAGINATE_BY
 from main.documents import PypiPackageDocument
+from PackageFinder.settings import PAGINATE_BY
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
@@ -54,10 +55,13 @@ def get_paginated_data_from_elastic(
     end = start + PAGINATE_BY
 
     packages_query = PypiPackageDocument.search()[start:end].query(match_query)
+    return packages_query
 
+
+def get_page_object(packages: Search, page_num: int):
     try:
-        _ = packages_query.count()
+        paginator = Paginator(packages, PAGINATE_BY)
+        page_obj = paginator.get_page(page_num)
     except NotFoundError:
-        return None
-    else:
-        return packages_query
+        page_obj = []
+    return page_obj

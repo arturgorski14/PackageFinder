@@ -1,23 +1,15 @@
 from django.shortcuts import redirect, render
 
-from PackageFinder.settings import PAGINATE_BY
 from main.main_job import main_job
-from django_elasticsearch_dsl_drf.pagination import Paginator
-
-from main.utils import get_paginated_data_from_elastic
+from main.utils import get_page_object, get_paginated_data_from_elastic
 
 
 def index(request):
     search_value = request.GET.get("q")
-    page_num = request.GET.get("page", 1)
+    page_num = int(request.GET.get("page", 1))
 
-    packages = get_paginated_data_from_elastic(search_value, int(page_num))
-
-    if not packages:
-        page_obj = []
-    else:
-        paginator = Paginator(packages, PAGINATE_BY)
-        page_obj = paginator.get_page(page_num)
+    packages = get_paginated_data_from_elastic(search_value, page_num)
+    page_obj = get_page_object(packages, page_num)
 
     context = {
         "page_obj": page_obj,

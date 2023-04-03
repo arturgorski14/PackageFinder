@@ -38,11 +38,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     "rest_framework",
     "django_elasticsearch_dsl",
     "django_elasticsearch_dsl_drf",
-
     "main",
     "django_bootstrap5",
 ]
@@ -132,17 +130,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 
 ELASTICSEARCH_DSL = {
-    'default': {
-        'hosts': 'elasticsearch:9200'
-    },
+    "default": {"hosts": "elasticsearch:9200"},
 }
 # ELASTICSEARCH_DSL_SIGNAL_PROCESSOR = 'django_elasticsearch_dsl.signals.RealTimeSignalProcessor'
 
-# ELASTICSEARCH_DSL = {
-#     'default': {
-#         'hosts': os.environ.get("ELASTICSEARCH_HOST", "elasticsearch:9200")
-#     },
-# }
 
 PAGINATE_BY = int(os.environ.get("PAGINATE_BY", 25))
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
