@@ -22,20 +22,3 @@ def create_soup(url: str) -> BeautifulSoup:
     """
     response_data = get_response_content(url)
     return BeautifulSoup(response_data, "xml")
-
-
-def get_page_number(number) -> int:
-    """
-    Get page number for pagination.
-    Django paginator doesn't support Elasticsearch Query.
-    Function allows number > page_number
-    """
-    default_page_number = 1
-    try:
-        if isinstance(number, float) and not number.is_integer():
-            raise ValueError
-        number = int(number)
-    except (TypeError, ValueError):
-        return default_page_number
-
-    return max(number, default_page_number)

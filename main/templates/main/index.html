@@ -9,8 +9,6 @@
 <body>
 
 <form method="get">
-<!--    <input id="q" name="q" type="text" placeholder="search package...">-->
-
     <div class="input-group mb-3">
       <div class="input-group-prepend">
         <span class="input-group-text" id="q">Search for Packages</span>
@@ -19,7 +17,7 @@
     </div>
 </form>
 
-{% if packages %}
+{% if page_obj %}
 <table class="table table-hover">
   <thead class="thead-dark">
     <tr>
@@ -31,7 +29,7 @@
     </tr>
   </thead>
   <tbody>
-   {% for package in packages %}
+   {% for package in page_obj %}
     <tr>
       <td>{{ package.title }}</td>
       <td>{{ package.version }}</td>
@@ -47,20 +45,20 @@
 {% endif %}
 
 <div class="pagination">
-    <span>
-        <a href="?page=1">&laquo; first</a>
-        {% if page_num > 1 %}
-            <a href="?page={{ previous_page }}">previous</a>
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
         {% endif %}
 
-        <span>
-            Page {{ page_num }} of {{ total_pages_num }}.
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
         </span>
 
-        {% if page_num < total_pages_num %}
-            <a href="?page={{ next_page }}">next</a>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
-        <a href="?page={{ total_pages_num }}">last &raquo;</a>
     </span>
 </div>
 

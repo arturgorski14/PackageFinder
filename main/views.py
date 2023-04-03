@@ -1,6 +1,5 @@
 import logging
 import os
-from math import ceil
 from typing import Optional
 
 from django.shortcuts import redirect, render
@@ -9,7 +8,7 @@ from elasticsearch_dsl.query import MatchAll, MultiMatch
 
 from main.documents import PypiPackageDocument
 from main.main_job import main_job
-from main.utils import get_page_number
+from django_elasticsearch_dsl_drf.pagination import Paginator
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
@@ -20,19 +19,14 @@ PAGINATE_BY = int(os.environ.get("PAGINATE_BY", 10))
 def index(request):
     search_value = request.GET.get("q")
     page_num = request.GET.get("page", 1)
-    page_num = get_page_number(page_num)
 
-    packages, p_count = get_paginated_data_from_elastic(search_value, page_num)
-    total_pages_num = ceil(p_count / PAGINATE_BY)
-    previous_page = page_num - 1
-    next_page = page_num + 1
+    packages, p_count = get_paginated_data_from_elastic(search_value, int(page_num))
+
+    paginator = Paginator(packages, PAGINATE_BY)
+    page_obj = paginator.get_page(page_num)
 
     context = {
-        "packages": packages,
-        "previous_page": previous_page,
-        "current_page": page_num,
-        "next_page": next_page,
-        "total_pages_num": total_pages_num,
+        "page_obj": page_obj,
     }
     return render(request, "main/index.html", context)
 
