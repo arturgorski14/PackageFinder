@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
+import logging
 import os
 from pathlib import Path
 
@@ -144,3 +145,4 @@ ELASTICSEARCH_DSL = {
 # }
 
 PAGINATE_BY = int(os.environ.get("PAGINATE_BY", 25))
+logging.basicConfig(level=logging.INFO, format='%(message)s')

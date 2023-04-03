@@ -14,7 +14,7 @@ def main_job():
     all_package_links = soup.find_all("link")
     for tag in list(set(all_package_links)):
         package_url = tag.string
-        log.info(f"Processing {url=}")
+        log.info(f"Processing {package_url=}")
         if package_url == "https://pypi.org/":
             log.info("Skip")
             continue
@@ -33,13 +33,13 @@ def main_job():
             title=title,
             version=version,
             description=description,
+            maintainer=maintainer,
         )
-        log.info(f"Finished {url=}")
     log.info(f"main_job has finished")
 
 
 def save_data_to_elastic(**kwargs):
-    print("Saving to elastic")
+    log.info("Saving to elastic")
     package = PypiPackage(**kwargs)
     package.save()
 

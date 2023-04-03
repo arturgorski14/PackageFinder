@@ -19,4 +19,5 @@ class PypiPackageDocument(Document):
             "description",
             "title",
             "version",
+            "maintainer",
         ]
