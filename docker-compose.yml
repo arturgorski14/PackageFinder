@@ -1,7 +1,13 @@
 version: '3.11'
 
+networks:
+  custom-network:
+
+volumes:
+  pf-elastic:
+
 services:
-  djangoapp:
+  web:
     build: .
     container_name: django-app
     command:
@@ -10,15 +16,12 @@ services:
       python manage.py search_index --rebuild"
     depends_on:
       - elasticsearch
-#      - elasticsearch_test
     environment:
      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     networks:
      - custom-network
     ports:
       - 8000:8000
-#    volumes:
-#      - .:/app
 
   elasticsearch:
     container_name: elasticsearch-cn
@@ -46,22 +49,3 @@ services:
      - custom-network
     ports:
       - 5601:5601
-
-#  elasticsearch_test:
-#    container_name: elasticsearch-test-cn
-#    environment:
-#      - xpack.security.enabled=false
-#      - discovery.type=single-node
-#      # - boostrap.memory_lock=true
-#    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.9
-#    networks:
-#      - docker-testing-cluster
-#    ports:
-#      - 9200:9200
-#      - 9300:9300
-
-networks:
-  custom-network:
-
-volumes:
-  pf-elastic:
