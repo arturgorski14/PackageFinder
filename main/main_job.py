@@ -20,23 +20,26 @@ def main_job():
             log.info("Skip")
             continue
 
-        package_soup = create_soup(package_url)
-        author_name, author_email = PypiScrapper.find_author(package_soup)
-        title, version = PypiScrapper.find_title_and_version(package_soup)
-        description = PypiScrapper.find_description(package_soup)
-        maintainer = PypiScrapper.find_maintainer(
-            create_soup(PypiScrapper.find_maintainer_userpage(package_soup))
-        )
+        data = extract_data_from_package_url(package_url)
 
-        save_data_to_elastic(
-            author_name=author_name,
-            author_email=author_email,
-            title=title,
-            version=version,
-            description=description,
-            maintainer=maintainer,
-        )
+        save_data_to_elastic(**data)
     log.info("main_job has finished")
+
+
+def extract_data_from_package_url(package_url: str) -> dict:
+    result = {}
+    package_soup = create_soup(package_url)
+    result["author_name"], result["author_email"] = PypiScrapper.find_author(
+        package_soup
+    )
+    result["title"], result["version"] = PypiScrapper.find_title_and_version(
+        package_soup
+    )
+    result["description"] = PypiScrapper.find_description(package_soup)
+    result["maintainer"] = PypiScrapper.find_maintainer(
+        create_soup(PypiScrapper.find_maintainer_userpage(package_soup))
+    )
+    return result
 
 
 def save_data_to_elastic(**kwargs):
